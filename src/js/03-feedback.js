@@ -11,7 +11,7 @@ form.addEventListener(`submit`, onSubmit);
 let LOCALSTORAGE_KEY = "feedback-form-state";
 
 let dataForm = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY)) || {};
-//перетв json на значення js LOCALSTORAGE_KEY
+//parse дані з localStorage по ключу LOCALSTORAGE_KEY, а якщо їх немає, по дефолту пустий об"єкт
 
 const { email, message } = form.elements;
 //console.log(form.elements) [input, textarea, button, email: input, message: textarea]
