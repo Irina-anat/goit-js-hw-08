@@ -1,37 +1,39 @@
 import throttle from 'lodash.throttle';
-/*import '../css/common.css';
-import '../css/03-feedback.css';*/
+import '../css/common.css';
+import '../css/03-feedback.css';
+
 
 const form = document.querySelector(`.feedback-form`);
 console.log(form)
 form.addEventListener(`input`, throttle(onInput, 500));
 //застосовую throttle - контролює кількість разів, яку функція може бути викликана протягом певного проміжку часу
+
 form.addEventListener(`submit`, onSubmit);
 
 let LOCALSTORAGE_KEY = "feedback-form-state";
 
 let dataForm = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY)) || {};
-//parse дані з localStorage по ключу LOCALSTORAGE_KEY, а якщо їх немає, по дефолту пустий об"єкт
 
-const { email, message } = form.elements;
-//console.log(form.elements) [input, textarea, button, email: input, message: textarea]
+ const { email, message } = form.elements;
+//console.log(form.elements)
 
-
-function onInput() {
-  dataForm = { email: email.value, message: message.value };
+function onInput() { 
+  dataForm = {
+    email: email.value,
+    message: message.value
+  };
   //console.log(dataForm)// збередження даних, що ввів користувач
   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(dataForm));
-  //запис до localStorage з ключем LOCALSTORAGE_KEY, значення перетвор в JSON
-   console.log(localStorage)
 }
 
 //Під час завантаження сторінки перевіряй стан сховища, і якщо там є збережені дані, заповнюй ними поля форми. В іншому випадку поля повинні бути порожніми.
 function downloadPage() {
+  console.log(dataForm)
   if (dataForm) {
     email.value = dataForm.email || ``;
-  //  console.log(dataForm.email)
+    console.log(dataForm.email)
     message.value = dataForm.message || ``;
-  //  console.log(dataForm.message)
+    console.log(dataForm.message)
   }  
 }
 downloadPage();
@@ -43,14 +45,11 @@ function onSubmit(e) {
 
   if (email.value === '' || message.value === '') {
         return alert('Всі поля повинні бути заповнені')
-  }
+  };
 
   localStorage.removeItem(LOCALSTORAGE_KEY);
-  e.currentTarget.reset();
-  
-}
-
-
+  e.currentTarget.reset();  
+};
 
 
 /*Відстежуй на формі подію input, і щоразу записуй у локальне сховище об'єкт з полями email і message, у яких зберігай поточні значення полів форми. Нехай ключем для сховища буде рядок "feedback-form-state".
